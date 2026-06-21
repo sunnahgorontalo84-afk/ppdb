@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --pbg: #050806;
+  --sbg: #0a0f0c;
+  --tbg: #111814;
+  --txp: #f1f5f3;
+  --txs: #9aa7a0;
+  --bacc: rgba(16, 185, 129, 0.1);
+  --border-generic: rgba(16, 185, 129, 0.15);
+  --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+:root.light {
+  --pbg: #F8FAFC;
+  --sbg: #FFFFFF;
+  --tbg: #F1F5F9;
+  --txp: #0F172A;
+  --txs: #475569;
+  --bacc: rgba(5, 150, 105, 0.04);
+  --border-generic: #E2E8F0;
+  --card-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+}
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-pbg: var(--pbg);
+  --color-sbg: var(--sbg);
+  --color-tbg: var(--tbg);
+  --color-txp: var(--txp);
+  --color-txs: var(--txs);
+  --color-bacc: var(--bacc);
+  --color-bdgen: var(--border-generic);
+  
+  --shadow-premium: var(--card-shadow);
+}
+
+body {
+  background-color: var(--pbg);
+  color: var(--txp);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ============================================
+   SELECT / DROPDOWN THEME FIX
+   Ensure browser-native select dropdowns always
+   respect the active theme's background & text
+   ============================================ */
+select {
+  color-scheme: inherit;
+  background-color: var(--sbg);
+  color: var(--txp);
+}
+
+select option {
+  background-color: var(--sbg);
+  color: var(--txp);
+}
+
+/* Input & textarea base theme alignment */
+input,
+textarea {
+  color-scheme: inherit;
+  color: var(--txp);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--txs);
+  opacity: 0.6;
+}
+
+/* Custom fade-in for dynamic layouts */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
