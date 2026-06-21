@@ -1,0 +1,63 @@
+{
+  "entities": {
+    "Registration": {
+      "title": "Registration",
+      "description": "Student PPDB application form metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "nisn": { "type": "string" },
+        "birthPlace": { "type": "string" },
+        "birthDate": { "type": "string" },
+        "gender": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "email": { "type": "string" },
+        "track": { "type": "string" },
+        "previousSchool": { "type": "string" },
+        "reportAverage": { "type": "number" },
+        "quranJuz": { "type": "number" },
+        "quranLevel": { "type": "string" },
+        "fatherName": { "type": "string" },
+        "fatherOccupation": { "type": "string" },
+        "motherName": { "type": "string" },
+        "guardianPhone": { "type": "string" },
+        "achievements": { "type": "string" },
+        "certificateUrl": { "type": "string" },
+        "status": { "type": "string" },
+        "notes": { "type": "string" },
+        "testDate": { "type": "string" },
+        "testTime": { "type": "string" },
+        "testVenue": { "type": "string" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": [
+        "id",
+        "fullName",
+        "nisn",
+        "birthPlace",
+        "birthDate",
+        "gender",
+        "whatsapp",
+        "email",
+        "track",
+        "previousSchool",
+        "reportAverage",
+        "quranJuz",
+        "quranLevel",
+        "fatherName",
+        "fatherOccupation",
+        "motherName",
+        "guardianPhone",
+        "status",
+        "submittedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/registrations/{registrationId}": {
+      "schema": "Registration",
+      "description": "Collection of all student PPDB registration documents"
+    }
+  }
+}

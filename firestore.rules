@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default-deny catch-all rule for defense-in-depth
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Check if ID matches standard format
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    // Verify user is an authentic authorized admin (using verified Google email from system context)
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == "sunnahgorontalo84@gmail.com" && request.auth.token.email_verified == true
+      );
+    }
+    
+    match /registrations/{registrationId} {
+      // Siapapun bisa mendaftar (create), dengan validasi ketat
+      allow create: if isValidId(registrationId) && isValidRegistration(request.resource.data);
+      
+      // Siapapun bisa baca 1 dokumen (cek status pendaftaran berdasarkan ID)
+      allow get: if isValidId(registrationId);
+      
+      // Query terbatas (max 2 dokumen) untuk keperluan:
+      // 1. Cek duplikat NISN saat pendaftaran baru (publik)
+      // 2. Pencarian status via NISN (publik)
+      // Admin mendapatkan akses penuh tanpa batas
+      allow list: if isAdmin() || (request.query.limit <= 2);
+      
+      // Hanya admin yang bisa update status dan hapus data
+      allow update, delete: if isAdmin();
+    }
+    
+    // Type and key validation helper to prevent update-gaps and shadow fields
+    function isValidRegistration(data) {
+      return data.keys().hasAll([
+        'id', 'fullName', 'nisn', 'birthPlace', 'birthDate', 'gender', 
+        'whatsapp', 'email', 'track', 'previousSchool', 'reportAverage', 
+        'quranJuz', 'quranLevel', 'fatherName', 'fatherOccupation', 
+        'motherName', 'guardianPhone', 'status', 'submittedAt'
+      ])
+      && data.keys().size() <= 24
+      && data.id is string && data.id.size() <= 64
+      && data.fullName is string && data.fullName.size() >= 3 && data.fullName.size() <= 100
+      && data.nisn is string && data.nisn.size() == 10
+      && data.birthPlace is string && data.birthPlace.size() <= 100
+      && data.birthDate is string && data.birthDate.size() <= 20
+      && data.gender is string
+      && data.whatsapp is string && data.whatsapp.size() <= 25
+      && data.email is string && data.email.size() <= 150
+      && data.track is string
+      && data.previousSchool is string && data.previousSchool.size() <= 150
+      && data.reportAverage is number && data.reportAverage >= 0 && data.reportAverage <= 100
+      && data.quranJuz is number && data.quranJuz >= 0 && data.quranJuz <= 30
+      && data.quranLevel is string
+      && data.fatherName is string && data.fatherName.size() <= 100
+      && data.fatherOccupation is string && data.fatherOccupation.size() <= 100
+      && data.motherName is string && data.motherName.size() <= 100
+      && data.guardianPhone is string && data.guardianPhone.size() <= 25
+      && data.status is string
+      && data.submittedAt is string;
+    }
+  }
+}

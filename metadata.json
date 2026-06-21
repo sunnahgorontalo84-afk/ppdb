@@ -1,0 +1,6 @@
+{
+  "name": "Pondok Pesantren As-Sunnah",
+  "description": "Website Resmi dan Pendaftaran Santri Baru (PPDB Online) Pondok Pesantren As-Sunnah",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
